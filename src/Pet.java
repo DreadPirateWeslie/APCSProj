@@ -1,3 +1,4 @@
+import com.sun.media.sound.InvalidDataException;
 import sun.java2d.loops.GeneralRenderer;
 
 import java.util.GregorianCalendar;
@@ -18,10 +19,18 @@ public class Pet implements Boardable{
     private GregorianCalendar boardEnd;
 
 
-    public Pet(String name, String ownerName, String ownerEmail, String color){
+    public Pet(String name, String ownerName, String ownerEmail, String color) throws IllegalEmailException{
         this.name = name;
         this.ownerName = ownerName;
-        this.ownerEmail = ownerEmail;
+        if(ownerEmail.contains("@") && ownerEmail.indexOf(".") > 0 && ownerEmail.indexOf(".") != ownerEmail.length()
+                && ownerEmail.lastIndexOf(".") >= ownerEmail.indexOf("@")
+                && !ownerEmail.contains("..") && !ownerEmail.contains("@@")
+                && ownerEmail.indexOf("@") == ownerEmail.lastIndexOf("@")
+        ){
+            this.ownerEmail = ownerEmail;
+        }else{
+            throw new IllegalEmailException();
+        }
         this.color = color;
     }
 
